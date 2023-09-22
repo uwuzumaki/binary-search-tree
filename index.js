@@ -127,8 +127,24 @@ const Tree = (array) => {
     search(root, value);
   };
 
+  //Find function that finds and returns the node when given a value;
+  const find = (value) => {
+    let newNode = null;
+    const search = (node) => {
+      if (value < node.data) {
+        search(node.left);
+      } else if (value > node.data) {
+        search(node.right);
+      } else {
+        newNode = node;
+      }
+    };
+    search(root);
+    return newNode;
+  };
+
   root = buildTree(sortedArr, first, last);
-  return { root, buildTree, insert, min, deleteNode };
+  return { root, buildTree, insert, min, deleteNode, find };
 };
 
 const nt = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -151,3 +167,4 @@ prettyPrint(nt.root);
 // prettyPrint(nt.root);
 // nt.deleteNode(67);
 // prettyPrint(nt.root);
+// nt.find(4)
