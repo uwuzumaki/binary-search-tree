@@ -143,8 +143,27 @@ const Tree = (array) => {
     return newNode;
   };
 
+  const levelOrder = (callback) => {
+    if (!root) return [];
+    const queue = [root];
+    const results = [];
+    while (queue.length) {
+      let level = [];
+      let size = queue.length;
+      for (let i = 0; i < size; i++) {
+        const node = queue.shift();
+        level.push(node.data);
+        node.left ? queue.push : null;
+        node.right ? queue.push(node.right) : null;
+        callback ? callback(node) : null;
+      }
+      results.push(level);
+    }
+    if (!callback) return results;
+  };
+
   root = buildTree(sortedArr, first, last);
-  return { root, buildTree, insert, min, deleteNode, find };
+  return { root, buildTree, insert, min, deleteNode, find, levelOrder };
 };
 
 const nt = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -168,3 +187,4 @@ prettyPrint(nt.root);
 // nt.deleteNode(67);
 // prettyPrint(nt.root);
 // nt.find(4)
+nt.levelOrder();
