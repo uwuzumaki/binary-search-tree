@@ -145,8 +145,10 @@ const Tree = (array) => {
 
   //Function to traverse a binary tree in breadth-first level order. The root node is put into the queue first.
   //It is then moved out of the queue into a node object and the data is pushed into a level array. If the node has a child,
-  //it is pushed into the queue. The callback function is then invoked and repeated.
-  const levelOrder = (callback) => {
+  //it is pushed into the queue. If a callback function exists, it will be called after the nodes are pushed into the queue.
+  //Additionally, the level array can be removed if nested arrays are undesired and the node.data can be pushed directly into
+  //the results array.
+  const levelOrder = (callbackFN) => {
     if (!root) return [];
     const queue = [root];
     const results = [];
@@ -158,47 +160,50 @@ const Tree = (array) => {
         level.push(node.data);
         node.left ? queue.push(node.left) : null;
         node.right ? queue.push(node.right) : null;
-        callback ? callback(node) : null;
+        callbackFN ? callbackFN(node) : null;
       }
       results.push(level);
     }
-    if (!callback) return results;
+    if (!callbackFN) return results;
   };
 
   //Left, root, right
-  const inOrder = () => {
+  const inOrder = (callbackFn) => {
     let results = [];
     const traverse = (node) => {
       node.left ? traverse(node.left) : null;
       results.push(node.data);
+      callbackFn ? callbackFn(node) : null;
       node.right ? traverse(node.right) : null;
     };
     traverse(root);
-    return results;
+    if (!callbackFn) return results;
   };
 
   //Root, left, right
-  const preOrder = () => {
+  const preOrder = (callbackFn) => {
     let results = [];
     const traverse = (node) => {
       results.push(node.data);
+      callbackFn ? callbackFn(node) : null;
       node.left ? traverse(node.left) : null;
       node.right ? traverse(node.right) : null;
     };
     traverse(root);
-    return results;
+    if (!callbackFN) return results;
   };
 
   //Left, right, root
-  const postOrder = () => {
+  const postOrder = (callbackFn) => {
     let results = [];
     const traverse = (node) => {
       node.left ? traverse(node.left) : null;
       node.right ? traverse(node.right) : null;
       results.push(node.data);
+      callbackFn ? callbackFn(node) : null;
     };
     traverse(root);
-    return results;
+    if (!callbackFn) return results;
   };
 
   const height = () => {};
