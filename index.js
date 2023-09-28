@@ -143,6 +143,9 @@ const Tree = (array) => {
     return newNode;
   };
 
+  //Function to traverse a binary tree in breadth-first level order. The root node is put into the queue first.
+  //It is then moved out of the queue into a node object and the data is pushed into a level array. If the node has a child,
+  //it is pushed into the queue. The callback function is then invoked and repeated.
   const levelOrder = (callback) => {
     if (!root) return [];
     const queue = [root];
@@ -153,7 +156,7 @@ const Tree = (array) => {
       for (let i = 0; i < size; i++) {
         const node = queue.shift();
         level.push(node.data);
-        node.left ? queue.push : null;
+        node.left ? queue.push(node.left) : null;
         node.right ? queue.push(node.right) : null;
         callback ? callback(node) : null;
       }
@@ -162,8 +165,57 @@ const Tree = (array) => {
     if (!callback) return results;
   };
 
+  //Left, root, right
+  const inOrder = () => {
+    let results = [];
+    const traverse = (node) => {
+      node.left ? traverse(node.left) : null;
+      results.push(node.data);
+      node.right ? traverse(node.right) : null;
+    };
+    traverse(root);
+    return results;
+  };
+
+  //Root, left, right
+  const preOrder = () => {
+    let results = [];
+    const traverse = (node) => {
+      results.push(node.data);
+      node.left ? traverse(node.left) : null;
+      node.right ? traverse(node.right) : null;
+    };
+    traverse(root);
+    return results;
+  };
+
+  //Left, right, root
+  const postOrder = () => {
+    let results = [];
+    const traverse = (node) => {
+      node.left ? traverse(node.left) : null;
+      node.right ? traverse(node.right) : null;
+      results.push(node.data);
+    };
+    traverse(root);
+    return results;
+  };
+
+  const height = () => {};
+
   root = buildTree(sortedArr, first, last);
-  return { root, buildTree, insert, min, deleteNode, find, levelOrder };
+  return {
+    root,
+    buildTree,
+    insert,
+    min,
+    deleteNode,
+    find,
+    levelOrder,
+    inOrder,
+    preOrder,
+    postOrder,
+  };
 };
 
 const nt = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -187,4 +239,7 @@ prettyPrint(nt.root);
 // nt.deleteNode(67);
 // prettyPrint(nt.root);
 // nt.find(4)
-nt.levelOrder();
+// console.log(nt.levelOrder());
+// console.log(nt.inOrder());
+console.log(nt.preOrder());
+// console.log(nt.postOrder());
