@@ -206,7 +206,7 @@ const Tree = (array) => {
     if (!callbackFn) return results;
   };
 
-  const height = (gNode) => {
+  const depth = (gNode) => {
     const present = find(gNode.data);
     if (!present) return null;
 
@@ -238,7 +238,7 @@ const Tree = (array) => {
     inOrder,
     preOrder,
     postOrder,
-    height,
+    depth,
   };
 };
 
@@ -267,4 +267,4 @@ prettyPrint(nt.root);
 // console.log(nt.inOrder());
 // console.log(nt.preOrder());
 // console.log(nt.postOrder());
-console.log(nt.height(nt.find(7)));
+console.log(nt.depth(nt.find(7)));
