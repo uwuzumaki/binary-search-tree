@@ -190,7 +190,7 @@ const Tree = (array) => {
       node.right ? traverse(node.right) : null;
     };
     traverse(root);
-    if (!callbackFN) return results;
+    if (!callbackFn) return results;
   };
 
   //Left, right, root
@@ -206,7 +206,25 @@ const Tree = (array) => {
     if (!callbackFn) return results;
   };
 
-  const height = () => {};
+  const height = (gNode) => {
+    const present = find(gNode.data);
+    if (!present) return null;
+
+    let dist = -1;
+    const search = (node) => {
+      if (gNode.data < node.data) {
+        dist++;
+        search(node.left);
+      } else if (gNode.data > node.data) {
+        dist++;
+        search(node.right);
+      } else {
+        dist++;
+      }
+    };
+    search(root);
+    return dist;
+  };
 
   root = buildTree(sortedArr, first, last);
   return {
@@ -220,6 +238,7 @@ const Tree = (array) => {
     inOrder,
     preOrder,
     postOrder,
+    height,
   };
 };
 
@@ -243,8 +262,9 @@ prettyPrint(nt.root);
 // prettyPrint(nt.root);
 // nt.deleteNode(67);
 // prettyPrint(nt.root);
-// nt.find(4)
+// console.log(nt.find(4));
 // console.log(nt.levelOrder());
 // console.log(nt.inOrder());
-console.log(nt.preOrder());
+// console.log(nt.preOrder());
 // console.log(nt.postOrder());
+console.log(nt.height(nt.find(7)));
