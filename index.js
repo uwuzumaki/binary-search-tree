@@ -206,6 +206,24 @@ const Tree = (array) => {
     if (!callbackFn) return results;
   };
 
+  //Function to find a height of a specific node. First checks if the node is present in the tree.
+  //Then recursively searches the left and right nodes. Whichever subtree value is higher, it'll return that value as height.
+  const height = (gNode) => {
+    if (!gNode) return -1;
+
+    let leftH = height(gNode.left);
+    let rightH = height(gNode.right);
+
+    if (leftH > rightH) {
+      return leftH++;
+    } else {
+      return rightH++;
+    }
+  };
+
+  //Finds the depth of a specific node. First checks that the node is present in the tree.
+  //Then recursively searches for the node, adding 1 to the distance each time it fails to find a node.
+  //When the node is found, distance is increased by 1 again. The distance is then returned.
   const depth = (gNode) => {
     const present = find(gNode.data);
     if (!present) return null;
@@ -238,6 +256,7 @@ const Tree = (array) => {
     inOrder,
     preOrder,
     postOrder,
+    height,
     depth,
   };
 };
@@ -257,9 +276,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-prettyPrint(nt.root);
-// nt.insert(66);
 // prettyPrint(nt.root);
+// nt.insert(500);
+prettyPrint(nt.root);
 // nt.deleteNode(67);
 // prettyPrint(nt.root);
 // console.log(nt.find(4));
@@ -267,4 +286,5 @@ prettyPrint(nt.root);
 // console.log(nt.inOrder());
 // console.log(nt.preOrder());
 // console.log(nt.postOrder());
-console.log(nt.depth(nt.find(7)));
+// console.log(nt.depth(nt.find(7)));
+console.log(nt.height(nt.find(8)));
