@@ -244,6 +244,32 @@ const Tree = (array) => {
     return dist;
   };
 
+  //Function for finding if the BST is balanced. A tree is balanced when the left and right subtree of any node do not differ
+  //by more than one. The traversal function takes a node (the root in this case) and first checks if the currentNode is null.
+  //If it is null, it means we've reached a leaf node and can start working backwards up the tree.
+  //A DFS is performed and at each node, the absolute value of the height of the subtrees are compared. If the absolute difference
+  //between the two height return results are greater than 1, -1 is returned. If at the end they do not differ by more than 1,
+  //The height of the entire tree is returned. A determination is made of whether or not the tree is balanced at the bottom based on the result.
+  const isBalanced = () => {
+    const traverse = (currentNode) => {
+      if (currentNode == null) return 0;
+
+      let leftH = traverse(currentNode.left);
+      if (leftH == -1) return -1;
+
+      let rightH = traverse(currentNode.right);
+      if (rightH == -1) return -1;
+
+      if (Math.abs(leftH - rightH) > 1) return -1;
+
+      return Math.max(leftH, rightH) + 1;
+    };
+
+    let results = traverse(root);
+
+    return results == -1 ? "Tree is not balanced" : "Tree is balanced";
+  };
+
   root = buildTree(sortedArr, first, last);
   return {
     root,
@@ -258,6 +284,7 @@ const Tree = (array) => {
     postOrder,
     height,
     depth,
+    isBalanced,
   };
 };
 
@@ -287,4 +314,5 @@ prettyPrint(nt.root);
 // console.log(nt.preOrder());
 // console.log(nt.postOrder());
 // console.log(nt.depth(nt.find(7)));
-console.log(nt.height(nt.find(8)));
+// console.log(nt.height(nt.find(8)));
+console.log(nt.isBalanced());
