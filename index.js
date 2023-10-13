@@ -29,6 +29,8 @@ const Tree = (array) => {
     return node;
   };
 
+  root = buildTree(sortedArr, first, last);
+
   //Function to find the appropriate leaf to insert a node on. The function first creates a note object with the value provided
   //The value of the root node is then compared with the provided value.
   //If the provided value is less than the node value, it will go to the left child node. If it is greater, it will go to the right node.
@@ -270,9 +272,20 @@ const Tree = (array) => {
     return results == -1 ? "Tree is not balanced" : "Tree is balanced";
   };
 
-  root = buildTree(sortedArr, first, last);
+  //Rebalances the tree. The inOrder function will go through the tree and create an inOrder array (based on the tree). The sort
+  //function will ensure the array only ascends. A new tree and root node will be created with the tree function.
+  const rebalance = () => {
+    const newArray = inOrder().sort((a, b) => a - b);
+    return (root = Tree(newArray).root);
+  };
+
+  //Helper function to return the root. For whatever reason when directly referencing the root, outside, the root never updates
+  //despite despite the tree being manipulated by the various methods. Workaround solution until I figure out a way to address this.
+  const rootGetter = () => root;
+
   return {
-    root,
+    // root,
+    rootGetter,
     buildTree,
     insert,
     min,
@@ -285,10 +298,11 @@ const Tree = (array) => {
     height,
     depth,
     isBalanced,
+    rebalance,
   };
 };
 
-const nt = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+let nt = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -303,11 +317,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-// prettyPrint(nt.root);
+// prettyPrint(nt.rootGetter());
 // nt.insert(500);
-prettyPrint(nt.root);
+// nt.insert(501);
+// nt.insert(502);
+// prettyPrint(nt.rootGetter());
 // nt.deleteNode(67);
-// prettyPrint(nt.root);
+// prettyPrint(nt.rootGetter());
 // console.log(nt.find(4));
 // console.log(nt.levelOrder());
 // console.log(nt.inOrder());
@@ -316,3 +332,6 @@ prettyPrint(nt.root);
 // console.log(nt.depth(nt.find(7)));
 // console.log(nt.height(nt.find(8)));
 console.log(nt.isBalanced());
+nt.rebalance();
+console.log(nt.rootGetter());
+prettyPrint(nt.rootGetter());
