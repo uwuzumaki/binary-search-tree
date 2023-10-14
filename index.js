@@ -284,7 +284,7 @@ const Tree = (array) => {
   const rootGetter = () => root;
 
   return {
-    // root,
+    root,
     rootGetter,
     buildTree,
     insert,
@@ -302,8 +302,6 @@ const Tree = (array) => {
   };
 };
 
-let nt = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -317,21 +315,34 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-// prettyPrint(nt.rootGetter());
-// nt.insert(500);
-// nt.insert(501);
-// nt.insert(502);
-// prettyPrint(nt.rootGetter());
-// nt.deleteNode(67);
-// prettyPrint(nt.rootGetter());
-// console.log(nt.find(4));
-// console.log(nt.levelOrder());
-// console.log(nt.inOrder());
-// console.log(nt.preOrder());
-// console.log(nt.postOrder());
-// console.log(nt.depth(nt.find(7)));
-// console.log(nt.height(nt.find(8)));
-console.log(nt.isBalanced());
-nt.rebalance();
-console.log(nt.rootGetter());
-prettyPrint(nt.rootGetter());
+const randomArray = () => {
+  let randomNumber = () => Math.floor(Math.random() * 100);
+  const arrayLength = Math.floor(Math.random() * 25);
+  const newArray = [];
+
+  for (let i = 0; i < arrayLength; i++) {
+    newArray.push(randomNumber());
+  }
+  return newArray;
+};
+
+const driver = () => {
+  let nt = Tree(randomArray());
+  console.log(nt.isBalanced());
+  console.log(nt.levelOrder());
+  console.log(nt.preOrder());
+  console.log(nt.postOrder());
+  console.log(nt.inOrder());
+  nt.insert(105);
+  nt.insert(315);
+  nt.insert(433);
+  console.log(nt.isBalanced());
+  nt.rebalance();
+  console.log(nt.isBalanced());
+  console.log(nt.levelOrder());
+  console.log(nt.preOrder());
+  console.log(nt.postOrder());
+  console.log(nt.inOrder());
+};
+
+driver();
